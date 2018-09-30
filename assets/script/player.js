@@ -12,7 +12,7 @@ cc.Class({
             type: cc.SpriteFrame,
             default:null
         },
-        bullet_prefab: {
+        bullet_prefab: {//子弹预制件
             type: cc.Prefab,
             default: null
         }
@@ -37,14 +37,26 @@ cc.Class({
 
         //test测试爆炸
         ///this._play_bomb_anim();
+
+        //定时器，每0.2秒调用一次子弹发射函数
+        this.schedule(this.shoot_bullet.bind(this),0.2);
     },
     start() {
 
     },
-    //发射
+    //子弹发射
     shoot_bullet() {
-
-    },
+        if (this.status_state === 1) {//如果是死亡状态直接返回
+            return;
+        }
+        var bullet = cc.instantiate(this.bullet_prefab);
+        //注意父亲节点是UI_ROOT，但是我们得保证bullet在下面
+        this.node.parent.addChild(bullet);
+        bullet.x = this.node.x;
+        bullet.y = this.node.y;
+        //设置子弹的层级，使得他在主角player的下面，
+        bullet.setLocalZOrder(-1000);
+    },  
     //玩家新产生一个生命
     new_life() {    
         //先进行隐身
@@ -53,6 +65,7 @@ cc.Class({
         this.scheduleOnce(function(){
             //一秒之后显示出来
             this.anim.scale = 1;
+            this.status_state = 2;//无敌状态
             //重置玩家的背景,注意spriteFrame是小写的
             this.anim.getComponent(cc.Sprite).spriteFrame = this.plane_idle;
             //产生无敌效果，或者说不检测碰撞的时候会出现一闪一闪的样子

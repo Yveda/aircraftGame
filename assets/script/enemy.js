@@ -54,7 +54,17 @@ cc.Class({
             this.node.removeFromParent();
         }.bind(this));
     },
-
+    //子弹碰到敌人
+    on_bullet_hit() {
+        //如果敌人正在播放动画就不用了
+        if (this.status_state !== 0) {
+            return;
+        }
+        //否则就表示敌人是死亡状态
+        this.status_state = 1;
+        //接下来就播放敌人爆炸动画
+        this._play_bomb_anim();
+    },
     update(dt) {
         var sx = this.speed_x * dt;
         var sy = this.speed_y * dt;

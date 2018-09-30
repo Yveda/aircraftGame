@@ -19,11 +19,14 @@ cc.Class({
         this.anim = this.node.getChildByName('anim');
         //播放动画帧组件
         this.anim_com = this.anim.addComponent('frame_anim');
-        this._set_enemy_idle();
+       
 
         // 敌人向下运动
         this.speed_x = 0;
         this.speed_y = -200;
+    },
+    start() {
+        this._set_enemy_idle();
     },
     //设置随机敌人皮肤
     _set_enemy_idle() {
@@ -34,6 +37,7 @@ cc.Class({
         if (skin_type >= 10) {
             skin_type = 9;
         }
+        cc.log("###############: "+skin_type)
         this.anim.getComponent(cc.Sprite).spriteFrame = this.enemy_skin[skin_type - 1];
     },
     //播放爆炸
@@ -46,9 +50,7 @@ cc.Class({
         }.bind(this));
     },
 
-    start() {
-
-    },
+    
 
     update(dt) {
         var sx = this.speed_x * dt;

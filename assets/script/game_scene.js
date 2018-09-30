@@ -25,7 +25,6 @@ cc.Class({
             g_type = this.groups_prefab.length;
         }
         var g = cc.instantiate(this.groups_prefab[g_type -1]);
-        console.log(g);
         this.node.addChild(g);
         //屏幕的宽高是400*600；下面是计算出战斗序列随机出现的位置
         g.x = (Math.random()- 0.5) * 200;

@@ -12,13 +12,28 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this._gen_random_group();
         //敌人的集合
         this.enemy_set = [];
+        this._gen_random_group();
+        this.score_value = 0;
+        this.score = this.node.getChildByName("score").getComponent(cc.Label);
+        this.score.string = "" + this.score_value;
     },
 
     start () {
         
+    },
+    add_score() {
+        this.score_value ++;
+        this.score.string = "" + this.score_value;
+    },
+    //找到并删掉这个敌人
+    remove_enemy(e) {
+        var index = this.enemy_set.indexOf(e);
+        //若果是有效值，就把对应敌人删掉
+        if(index >= 0){
+            this.enemy_set.splice(index,1);
+        }
     },
     //产生随机的战斗序列
     _gen_random_group() {

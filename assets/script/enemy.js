@@ -22,7 +22,7 @@ cc.Class({
         this.anim = this.node.getChildByName('anim');
         //播放动画帧组件
         this.anim_com = this.anim.addComponent('frame_anim');
-       
+        this.game_scene = cc.find("UI_ROOT").getComponent("game_scene");
 
         // 敌人向下运动
         this.speed_x = 0;
@@ -45,23 +45,32 @@ cc.Class({
         }
         this.anim.getComponent(cc.Sprite).spriteFrame = this.enemy_skin[skin_type - 1];
     },
+    //删除敌人
+    remove_enemy() {
+        //删掉敌人数组里面对应的敌人
+        this.game_scene.remove_enemy(this.node);
+        //把自己从父节点中删除
+        this.node.removeFromParent();
+    },
     //播放敌人爆炸
     _play_bomb_anim() {
-        this.anim_com.sprite_frams = this.bomb_anim;
+        this.anim_com.sprite_frames = this.bomb_anim;
         this.anim_com.bomb_duration = this.bomb_duration;
         this.anim_com.play_once(function () {
-            //把父节点也就是敌人节点删除掉
-            this.node.removeFromParent();
+            //删除敌人
+            this.remove_enemy();
         }.bind(this));
     },
-    //子弹碰到敌人
+    //当子弹碰到敌人
     on_bullet_hit() {
         //如果敌人正在播放动画就不用了
         if (this.status_state !== 0) {
             return;
         }
+        //如果击毁敌机则加一分
+        this.game_scene.add_score();
         //否则就表示敌人是死亡状态
-        this.status_state = 1;
+        this.status_state = 1;//死亡状态
         //接下来就播放敌人爆炸动画
         this._play_bomb_anim();
     },
@@ -93,7 +102,7 @@ cc.Class({
         //超出屏幕则删除节点
         if (w_pos.x < -100 || w_pos.x > 500 || w_pos.y < -100) {
             //把父节点也就是敌人节点删除掉
-            this.node.removeFromParent();
+            this.remove_enemy();
         }
     },
 });

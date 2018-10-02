@@ -14,7 +14,7 @@ cc.Class({
         this.bottom_bg = this.bg_red;//保存一个当前位于最底层的块
         this.speed = -100;//由于是向下运动所以为负数
         //保证子弹在星空的上面，因为子弹是-1000
-        this.node.setlocalZOrder(-2000);
+        this.node.setLocalZOrder(-2000);
     },
 
     start () {

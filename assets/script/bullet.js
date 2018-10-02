@@ -39,7 +39,7 @@ cc.Class({
         //如果子弹超出屏幕范围则删除
         if (this.node.y >= 310) {
             this.node.removeFromParent();
-            return;
+            return;//如若没有返回的话就做接下来的碰撞检测 
         }
 
         //和敌人的碰撞检测
@@ -48,7 +48,7 @@ cc.Class({
         var w_b_box = this.node.getBoundingBoxToWorld();
         for (var i = 0; i < this.enemy_set.length; i++) {
             //com表示组件，component的缩写，在这里是enemy.js
-             var com = this.enemy_set[i].getComonent("enemy")
+             var com = this.enemy_set[i].getComponent("enemy")
             //如果是一次有效的碰撞,就将这个敌人删掉
             if(this.hit_enemy_test(w_b_box,com)){
                 //子弹碰到了,就调用enemy.js里面的函数

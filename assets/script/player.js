@@ -65,7 +65,8 @@ cc.Class({
         this.scheduleOnce(function(){
             //一秒之后显示出来
             this.anim.scale = 1;
-            this.status_state = 2;//无敌状态
+            //玩家无敌状态
+            this.status_state = 2;
             //重置玩家的背景,注意spriteFrame是小写的
             this.anim.getComponent(cc.Sprite).spriteFrame = this.plane_idle;
             //产生无敌效果，或者说不检测碰撞的时候会出现一闪一闪的样子
